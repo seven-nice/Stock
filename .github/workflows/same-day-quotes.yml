@@ -1,0 +1,24 @@
+name: Verify same-day TWSE TPEx quotes
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify both markets on November 12
+        run: python scripts/same_day_quotes.py 2026-11-12
+      - name: Upload evidence even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: same-day-quote-audit
+          path: results/same_day_*.json
+          if-no-files-found: warn
+          retention-days: 30
