@@ -1,0 +1,24 @@
+name: Normalize daily quote snapshots
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  normalize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check market dates and normalize four-digit candidates
+        run: python scripts/normalize_quotes.py
+      - name: Preserve evidence on date mismatch
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: normalized-quote-audit
+          path: results/
+          if-no-files-found: warn
+          retention-days: 30
