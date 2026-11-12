@@ -12,8 +12,8 @@ URLS = {
     "TWSE_DAILY": "https://openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL",
     "TPEX_DAILY": "https://www.tpex.org.tw/openapi/v1/tpex_mainboard_daily_close_quotes",
 }
-DATE_RE = re.compile(r"^(?:20\\d{2}[-/]\\d{1,2}[-/]\\d{1,2}|1\\d{2}[-/]\\d{1,2}[-/]\\d{1,2}|\\d{7,8})$")
-CODE_RE = re.compile(r"^\\d{4}$")
+DATE_RE = re.compile(r"^(?:20\d{2}[-/]\d{1,2}[-/]\d{1,2}|1\d{2}[-/]\d{1,2}[-/]\d{1,2}|\d{7,8})$")
+CODE_RE = re.compile(r"^\d{4}$")
 
 def get_json(url):
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0", "Accept": "application/json"})
