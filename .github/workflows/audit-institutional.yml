@@ -1,0 +1,25 @@
+name: Audit institutional and margin official sources
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '10 11 * * 1-5'
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Inspect dated TWSE and TPEx institutional and margin data
+        run: python scripts/audit_institutional_sources.py
+      - name: Upload audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: institutional-margin-source-audit
+          path: results/institutional_source_audit.json
+          if-no-files-found: warn
