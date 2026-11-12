@@ -54,6 +54,9 @@ def main():
             result = inspect(name, url)
             output["sources"][name] = result
             print(f"{name}: rows={result['total_rows']}, date_fields={result['date_fields']}, code_fields={list(result['code_fields'])}", flush=True)
+            print("DATE_COUNTS", name, json.dumps(result["date_distribution_top12"], ensure_ascii=False), flush=True)
+            print("CODE_COUNTS", name, json.dumps(result["code_fields"], ensure_ascii=False), flush=True)
+            print("FIELDS", name, json.dumps(result["fields"], ensure_ascii=False), flush=True)
         except Exception as e:
             output["errors"][name] = f"{type(e).__name__}: {str(e)[:400]}"
             print(f"{name}: ERROR {e}", flush=True)
