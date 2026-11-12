@@ -1,0 +1,24 @@
+name: Probe official dated market quotes
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test official dated quote sources
+        run: python scripts/dated_source_probe.py
+      - name: Save endpoint evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dated-source-probe
+          path: results/dated_source_probe.json
+          if-no-files-found: warn
+          retention-days: 30
