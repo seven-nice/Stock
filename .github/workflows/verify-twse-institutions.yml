@@ -1,0 +1,25 @@
+name: Verify TWSE institutional conditions
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '20 11 * * 1-5'
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify dated foreign and dealer signals
+        run: python scripts/verify_twse_institutions.py
+      - name: Upload evidence even if incomplete
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: twse-institutional-verification
+          path: results/twse_institutional_verification.json
+          if-no-files-found: warn
