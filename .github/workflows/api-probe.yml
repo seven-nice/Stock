@@ -1,0 +1,26 @@
+name: Probe TWSE TPEx official APIs
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 10 * * 1-5'
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test official API endpoints
+        run: python scripts/probe.py
+      - name: Upload evidence even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: twse-tpex-api-probe
+          path: results/
+          if-no-files-found: warn
+          retention-days: 30
