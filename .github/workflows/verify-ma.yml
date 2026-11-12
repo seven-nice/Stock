@@ -1,0 +1,23 @@
+name: Verify preliminary candidates MAs
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  ma-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify TWSE MA5 MA10 MA20 MA60
+        run: python scripts/verify_ma.py
+      - name: Upload audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ma-verification
+          path: results/ma_verification.json
+          if-no-files-found: warn
