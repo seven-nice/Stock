@@ -12,6 +12,12 @@ TESTS = {
                       {"response":"json","date":"2026/11/11"}),
     "TPEX_20261112": ("https://www.tpex.org.tw/www/zh-tw/afterTrading/otc",
                       {"response":"json","date":"2026/11/12"}),
+    "TPEX_ROC_1151112": ("https://www.tpex.org.tw/www/zh-tw/afterTrading/otc",
+                      {"response":"json","date":"115/11/12"}),
+    "TPEX_COMPACT_20261112": ("https://www.tpex.org.tw/www/zh-tw/afterTrading/otc",
+                      {"response":"json","date":"20261112"}),
+    "TPEX_ROC_COMPACT": ("https://www.tpex.org.tw/www/zh-tw/afterTrading/otc",
+                      {"response":"json","date":"1151112"}),
 }
 
 def run():
